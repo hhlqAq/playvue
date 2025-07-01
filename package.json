@@ -1,0 +1,29 @@
+{
+  "name": "playvue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.js reactivity -f esm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hhlqAq/playvue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hhlqAq/playvue/issues"
+  },
+  "homepage": "https://github.com/hhlqAq/playvue#readme",
+  "description": "",
+  "dependencies": {
+    "vue": "^3.5.17"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.5",
+    "minimist": "^1.2.8",
+    "typescript": "^5.8.3"
+  }
+}
