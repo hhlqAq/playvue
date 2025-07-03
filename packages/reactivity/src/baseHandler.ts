@@ -1,4 +1,5 @@
 import { ReactiveFlags } from "./constants";
+import { track } from "./reactiveEffect";
 
 export const mutableHandlers: ProxyHandler<any> = {
   get(target, p, receiver) {
@@ -6,6 +7,8 @@ export const mutableHandlers: ProxyHandler<any> = {
       return true; // 标记为响应式对象
     }
     // TODO: 依赖收集
+    track(target, p);
+
     return Reflect.get(target, p, receiver);
   },
   set(target, p, newValue, receiver) {

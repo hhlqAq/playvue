@@ -14,7 +14,14 @@
       // } from "/node_modules/@vue/reactivity/dist/reactivity.esm-browser.js";
       import { reactive, effect } from "./reactivity.js";
       const state = reactive({ name: "hhl", age: 30 });
-      console.log(state.name);
+      effect(() => {
+        console.log(state.name);
+        effect(() => {
+          console.log(state.name);
+        });
+        console.log(state.age);
+      });
+      // _effect.run(); // effect run hhl 30
     </script>
   </body>
 </html>

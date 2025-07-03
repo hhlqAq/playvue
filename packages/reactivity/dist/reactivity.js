@@ -1,10 +1,43 @@
 // packages/reactivity/src/effect.ts
-function effect() {
+function effect(fn, options) {
+  const _effect = new ReactiveEffect(fn, () => {
+    _effect.run();
+  });
+  _effect.run();
+  return _effect;
 }
+var activeEffect;
+var ReactiveEffect = class {
+  constructor(fn, scheduler) {
+    this.fn = fn;
+    this.scheduler = scheduler;
+    this.active = true;
+  }
+  run() {
+    if (!this.active) {
+      return this.fn();
+    }
+    const prevActiveEffect = activeEffect;
+    activeEffect = this;
+    try {
+      return this.fn();
+    } finally {
+      activeEffect = prevActiveEffect;
+    }
+  }
+};
 
 // packages/shared/src/index.ts
 function isObject(value) {
   return value !== null && typeof value === "object";
+}
+
+// packages/reactivity/src/reactiveEffect.ts
+function track(target, key) {
+  console.log(`Tracking key: ${key} on target:`, target);
+  if (activeEffect) {
+    console.log(activeEffect);
+  }
 }
 
 // packages/reactivity/src/baseHandler.ts
@@ -13,6 +46,7 @@ var mutableHandlers = {
     if (p === "__v_isReactive" /* IS_REACTIVE */) {
       return true;
     }
+    track(target, p);
     return Reflect.get(target, p, receiver);
   },
   set(target, p, newValue, receiver) {
@@ -39,6 +73,8 @@ function cereateReactiveObject(target) {
   return proxy;
 }
 export {
+  ReactiveEffect,
+  activeEffect,
   effect,
   reactive
 };
